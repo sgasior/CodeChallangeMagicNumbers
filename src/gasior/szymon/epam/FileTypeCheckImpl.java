@@ -23,6 +23,12 @@ public class FileTypeCheckImpl implements FileTypeCheck {
     }
 
 
+    /**
+     * This method is used to check if inputed file has correct extension by comparing mimeType and file type checked by 'magic numbers'
+     *
+     * @return true format is correct
+     * @throws BadFormatException when format is incorrect
+     */
     public boolean isExtensionCorrect() throws BadFormatException {
 
         switch (this.mimeType) {
@@ -64,7 +70,12 @@ public class FileTypeCheckImpl implements FileTypeCheck {
         isExtensionCorrect();
     }
 
-
+    /**
+     * This method is reading byte of data from the input stream in order to create String list
+     *
+     * @param file
+     * @return file data String List (converted to hexidecimal format)
+     */
     private List<String> readInFile(File file) {
 
         List<String> dataList = null;
@@ -89,12 +100,22 @@ public class FileTypeCheckImpl implements FileTypeCheck {
         return dataList;
     }
 
-
+    /**
+     * This method is setting the mimeType property to the value of a
+     * MIME content type
+     *
+     * @throws IOException
+     */
     private void setMimeType() throws IOException {
         this.mimeType = Files.probeContentType(Paths.get(file.getPath()));
     }
 
 
+    /**
+     * This method is setting the fileTypeDesignatedByMagicNumbers property of this object designated by magic numbers
+     * The method specifies which of the magic numbers matches the type of file. It's trying to match hexdecimal numbers from the file
+     * to the hexdecimal numbers found in file
+     */
     private void setFileTypeDesignatedByMagicNumbers() {
         List<String> dataList = readInFile(file);
 
@@ -103,6 +124,7 @@ public class FileTypeCheckImpl implements FileTypeCheck {
                 this.fileTypeDesignatedByMagicNumbers = type;
             }
 
+            // if the file type is not supported then we assign NOT_MATCH
             if (this.fileTypeDesignatedByMagicNumbers == null) {
                 this.fileTypeDesignatedByMagicNumbers = FileType.NOT_MATCH;
             }
@@ -110,7 +132,13 @@ public class FileTypeCheckImpl implements FileTypeCheck {
 
     }
 
-
+    /**
+     * It's helper method to the setFileTypeDesignatedByMagicNumbers() to check if hexSignature 'magic number' match hexSignature from file
+     *
+     * @param fileType
+     * @param dataList
+     * @return true if hexSignature from FileType is same as signagure found in file
+     */
     private boolean isHexSignatureMatch(FileType fileType, List<String> dataList) {
         boolean result = true;
         String hexCodes[] = fileType.toString().split(" ");
