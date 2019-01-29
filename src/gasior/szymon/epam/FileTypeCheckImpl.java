@@ -20,8 +20,7 @@ public class FileTypeCheckImpl implements FileTypeCheck {
 
     public FileTypeCheckImpl(File file) throws IOException {
         this.file = file;
-        setMimeType();
-        setFileTypeDesignatedByMagicNumbers();
+        update();
     }
 
 
@@ -57,6 +56,13 @@ public class FileTypeCheckImpl implements FileTypeCheck {
                 throw new BadFormatException("Extension is invalid: \n Extension is " + this.fileTypeDesignatedByMagicNumbers.name() + " while actually it's a " + this.mimeType);
         }
         return false;
+    }
+
+
+    private void update() throws IOException {
+        setMimeType();
+        setFileTypeDesignatedByMagicNumbers();
+        isExtensionCorrect();
     }
 
 
@@ -125,8 +131,7 @@ public class FileTypeCheckImpl implements FileTypeCheck {
 
     public void setFile(File file) throws IOException {
         this.file = file;
-        setMimeType();
-        setFileTypeDesignatedByMagicNumbers();
+        update();
     }
 
     public String getMimeType() {
