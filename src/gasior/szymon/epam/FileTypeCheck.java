@@ -1,10 +1,13 @@
 package gasior.szymon.epam;
 
+import gasior.szymon.epam.Exceptions.BadFormatException;
+
 import java.io.File;
+import java.io.IOException;
 
 public interface FileTypeCheck {
 
-    boolean isExtensionCorrect();
+    boolean isExtensionCorrect() throws BadFormatException;
 
     String getMimeType();
 
@@ -12,7 +15,7 @@ public interface FileTypeCheck {
 
     File getFile();
 
-    void setFile(File file);
+    void setFile(File file) throws IOException;
 
 
 }
